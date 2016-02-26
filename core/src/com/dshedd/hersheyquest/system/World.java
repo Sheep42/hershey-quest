@@ -7,11 +7,11 @@ public class World {
 	Hershey hershey;
 	
 	public World() {
-		
+		hershey = new Hershey(10, 10);
 	}
 	
 	public void update(float delta){
-		
+		hershey.update(delta);
 	}
 	
 	public void dispose() {
