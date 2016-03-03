@@ -12,14 +12,17 @@ public class Hershey {
 	SpriteBatch batch = new SpriteBatch();
 	
 	public static final int IDLE = 0;
-	public static final int LEFT = 1;
-	public static final int RIGHT = 2;
-	public static final int UP = 3;
-	public static final int DOWN = 4;
+	public static final int LEFT = -1;
+	public static final int RIGHT = 1;
+	public static final int UP = 1;
+	public static final int DOWN = -1;
 	public static final int SPAWN = 5;
 	public static final int NERVOUS = 6;
 	public static final int OVERWHELMED = 7;
 	
+	public static final float ACCELERATION = 267f;
+	static final float MAX_VEL = 80f;
+	public static final float DRAG = 0.92f;
 	public static final float WIDTH = 32;
 	public static final float HEIGHT = 32;
 	
@@ -58,17 +61,48 @@ public class Hershey {
 	}
 	
 	public void update(float delta) {
+		
+		System.out.println(delta);
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
-			pos.y += 1;
+			dir = UP;
+			accel.y = ACCELERATION * dir;
 		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
-			pos.y -= 1;
+			dir = DOWN;
+			accel.y = ACCELERATION * dir;
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			pos.x += 1;
+			dir = RIGHT;
+			accel.x = ACCELERATION * dir;
 		} else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			pos.x -= 1;
-		}
+			dir = LEFT;
+			accel.x = ACCELERATION * dir;
+		} 
+		
+		accel.scl(delta);
+		vel.add(accel.x, accel.y);
+		
+		if(accel.x == 0) vel.x *= DRAG;
+		if(accel.y == 0) vel.y *= DRAG;
+		
+		if(vel.x > MAX_VEL) vel.x = MAX_VEL;
+		if(vel.x < -MAX_VEL) vel.x = -MAX_VEL;
+		
+		if(vel.y > MAX_VEL) vel.y = MAX_VEL;
+		if(vel.y < -MAX_VEL) vel.y = -MAX_VEL;
+		
+		vel.scl(delta);
+		
+		bounds.x += vel.x;
+		//collision here
+		
+		bounds.y += vel.y;
+		//collision here
+		
+		pos.x = bounds.x;
+		pos.y = bounds.y;
+		
+		vel.scl(1.0f / delta);
 	}
 
 	public void render(float delta) {

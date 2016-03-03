@@ -28,7 +28,6 @@ public class GameScreen extends AbstractScreen{
 	
 	@Override
 	public void render(float delta) {
-		System.out.println("Game...");
 		delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 		world.update(delta);
 		
