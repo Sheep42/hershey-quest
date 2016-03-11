@@ -2,11 +2,14 @@ package com.dshedd.hersheyquest.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Hershey {
 	SpriteBatch batch = new SpriteBatch();
@@ -38,9 +41,13 @@ public class Hershey {
 	private Vector2 accel = new Vector2();
 	private Vector2 vel = new Vector2();
 	
+	Vector3 touchPos = new Vector3(); 
+	
+	private OrthographicCamera cam;
+	
 	private float stateTime = 0;
 	
-	public Hershey(float x, float y) {
+	public Hershey(float x, float y, OrthographicCamera cam) {
 		//Init position
 		pos.x = x;
 		pos.y = y;
@@ -58,11 +65,12 @@ public class Hershey {
 		//Sprite
 		texture = new Texture(Gdx.files.internal("hershey.png"));
 		textureRegion = new TextureRegion(texture, 0, 0, WIDTH, HEIGHT);
+		
+		//Camera
+		this.cam = cam;
 	}
 	
 	public void update(float delta) {
-		
-		System.out.println(delta);
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
 			dir = UP;
 			accel.y = ACCELERATION * dir;
@@ -78,6 +86,27 @@ public class Hershey {
 			dir = LEFT;
 			accel.x = ACCELERATION * dir;
 		} 
+		
+		if(Gdx.input.isTouched()) {
+			touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			cam.unproject(touchPos);
+			
+			if(touchPos.y >= (pos.y + HEIGHT/2)) {
+				dir = UP;
+				accel.y = ACCELERATION * dir;
+			} else if(touchPos.y < (pos.y + HEIGHT/2)) {
+				dir = DOWN;
+				accel.y = ACCELERATION * dir;
+			}
+			
+			if(touchPos.x >= (pos.x + WIDTH/2) ) {
+				dir = RIGHT;
+				accel.x = ACCELERATION * dir;
+			} else if(touchPos.x < (pos.x + WIDTH/2)) {
+				dir = LEFT;
+				accel.x = ACCELERATION * dir;
+			}
+		}
 		
 		accel.scl(delta);
 		vel.add(accel.x, accel.y);
@@ -103,12 +132,6 @@ public class Hershey {
 		pos.y = bounds.y;
 		
 		vel.scl(1.0f / delta);
-	}
-
-	public void render(float delta) {
-		batch.begin();
-			batch.draw(textureRegion, pos.x, pos.y, 0, 0, WIDTH, HEIGHT, 1, 1, 0);
-		batch.end();
 	}
 	
 	public int getState() {
@@ -157,5 +180,13 @@ public class Hershey {
 
 	public void setVel(Vector2 vel) {
 		this.vel = vel;
-	} 
+	}
+
+	public TextureRegion getTextureRegion() {
+		return textureRegion;
+	}
+
+	public void setTextureRegion(TextureRegion textureRegion) {
+		this.textureRegion = textureRegion;
+	}
 }

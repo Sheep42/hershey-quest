@@ -104,12 +104,6 @@ public class Enemy {
 		
 		vel.scl(1.0f / delta);
 	}
-
-	public void render(float delta) {
-		batch.begin();
-			batch.draw(textureRegion, pos.x, pos.y, 0, 0, WIDTH, HEIGHT, 1, 1, 0);
-		batch.end();
-	}
 	
 	public int getState() {
 		return state;
@@ -157,5 +151,13 @@ public class Enemy {
 
 	public void setVel(Vector2 vel) {
 		this.vel = vel;
+	}
+
+	public TextureRegion getTextureRegion() {
+		return textureRegion;
+	}
+
+	public void setTextureRegion(TextureRegion textureRegion) {
+		this.textureRegion = textureRegion;
 	} 
 }
