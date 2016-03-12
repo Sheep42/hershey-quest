@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.dshedd.hersheyquest.system.NervousBar;
 
 public class Hershey {
 	SpriteBatch batch = new SpriteBatch();
@@ -22,6 +22,7 @@ public class Hershey {
 	public static final int SPAWN = 5;
 	public static final int NERVOUS = 6;
 	public static final int OVERWHELMED = 7;
+	public static final int EXCITED = 8;
 	
 	public static final float ACCELERATION = 267f;
 	static final float MAX_VEL = 80f;
@@ -46,6 +47,8 @@ public class Hershey {
 	private OrthographicCamera cam;
 	
 	private float stateTime = 0;
+	
+	private float nervousPercent = 0;
 	
 	public Hershey(float x, float y, OrthographicCamera cam) {
 		//Init position
@@ -132,6 +135,8 @@ public class Hershey {
 		pos.y = bounds.y;
 		
 		vel.scl(1.0f / delta);
+		
+		
 	}
 	
 	public int getState() {
@@ -188,5 +193,13 @@ public class Hershey {
 
 	public void setTextureRegion(TextureRegion textureRegion) {
 		this.textureRegion = textureRegion;
+	}
+
+	public float getNervousPercent() {
+		return nervousPercent;
+	}
+
+	public void setNervousPercent(float nervousPercent) {
+		this.nervousPercent = nervousPercent;
 	}
 }
