@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.dshedd.hersheyquest.system.NervousBar;
 
 public class Hershey {
 	SpriteBatch batch = new SpriteBatch();
@@ -49,7 +49,11 @@ public class Hershey {
 	private float stateTime = 0;
 	
 	private float nervousPercent = 0;
+
+	protected Animation hersheyUp, hersheyDown, hersheyRight, hersheyLeft;
 	
+	private Animation currAnimation;
+
 	public Hershey(float x, float y, OrthographicCamera cam) {
 		//Init position
 		pos.x = x;
@@ -66,28 +70,46 @@ public class Hershey {
 		stateTime = 0;
 		
 		//Sprite
-		texture = new Texture(Gdx.files.internal("hershey.png"));
+		texture = new Texture(Gdx.files.internal("hershey-full.png"));
 		textureRegion = new TextureRegion(texture, 0, 0, WIDTH, HEIGHT);
+		
+		TextureRegion[] split = new TextureRegion(textureRegion).split(32, 32)[0];
+		TextureRegion[] mirror = new TextureRegion(textureRegion).split(32, 32)[0];
+		
+		mirror[0].flip(false, true);
+		mirror[1].flip(false, true);
+		mirror[2].flip(true, false);
+		mirror[3].flip(true, false);
+		
+		currAnimation = hersheyUp = new Animation(0.2f, split[0], split[1]);
+		hersheyDown = new Animation(0.2f, mirror[0], mirror[1]);
+		hersheyRight = new Animation(0.2f, split[2], split[3]);
+		hersheyLeft = new Animation(0.2f, mirror[2], mirror[3]);
 		
 		//Camera
 		this.cam = cam;
 	}
 	
 	public void update(float delta) {
+		
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
 			dir = UP;
 			accel.y = ACCELERATION * dir;
+			currAnimation = hersheyUp;
 		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
 			dir = DOWN;
 			accel.y = ACCELERATION * dir;
+			currAnimation = hersheyDown;
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			dir = RIGHT;
 			accel.x = ACCELERATION * dir;
+			currAnimation = hersheyRight;
 		} else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			dir = LEFT;
 			accel.x = ACCELERATION * dir;
+			currAnimation = hersheyLeft;
 		} 
 		
 		if(Gdx.input.isTouched()) {
@@ -136,7 +158,7 @@ public class Hershey {
 		
 		vel.scl(1.0f / delta);
 		
-		
+		stateTime += delta;
 	}
 	
 	public int getState() {
@@ -201,5 +223,21 @@ public class Hershey {
 
 	public void setNervousPercent(float nervousPercent) {
 		this.nervousPercent = nervousPercent;
+	}
+
+	public float getStateTime() {
+		return stateTime;
+	}
+
+	public void setStateTime(float stateTime) {
+		this.stateTime = stateTime;
+	}
+
+	public Animation getCurrAnimation() {
+		return currAnimation;
+	}
+
+	public void setCurrAnimation(Animation currAnimation) {
+		this.currAnimation = currAnimation;
 	}
 }
