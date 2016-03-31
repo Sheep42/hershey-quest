@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.dshedd.hersheyquest.entities.Enemy;
 import com.dshedd.hersheyquest.entities.Hershey;
@@ -17,6 +20,8 @@ public class World {
 	private Vector3 touchPos = new Vector3(0, 0, 0);
 	private SpriteBatch batch;
 	private BitmapFont clockText = new BitmapFont();
+	protected TiledMap map;
+	protected OrthogonalTiledMapRenderer renderer;
 	private float elapsed = 0, touchTime = 0;
 	
 	public World() {
@@ -26,6 +31,9 @@ public class World {
 		enemy = new Enemy(100, 100, hershey);
 		
 		nervousBar = new NervousBar(hershey.getPos().x, hershey.getPos().y);
+		
+		map = new TmxMapLoader().load("map.tmx");
+		renderer = new OrthogonalTiledMapRenderer(map);
 		
 		batch = new SpriteBatch();
 	}
@@ -40,21 +48,51 @@ public class World {
 	}
 	
 	public void render(float delta) {
-		cam.update();
-		batch.setProjectionMatrix(cam.combined);
+		cam.position.set(hershey.getPos().x, hershey.getPos().y, 0);
 		
-		batch.begin();
+		//Handle map edges
+		if((hershey.getPos().x - (cam.viewportWidth / 2)) > 0) { 
+			if(cam.position.x < (hershey.getPos().x + (hershey.WIDTH / 2))) {
+				cam.position.x += 2;
+			}
+		} else {
+			if(cam.position.x > cam.viewportWidth / 2) {
+				cam.position.x -= 2;
+			} else {
+				cam.position.x = cam.viewportWidth / 2;
+			}
+		}
+		
+		if(hershey.getPos().y - (cam.viewportHeight / 2) > 0) { 
+			if(cam.position.y < (hershey.getPos().y + (hershey.HEIGHT / 2))) {
+				cam.position.y += 2;
+			}
+		} else {
+			if(cam.position.y > cam.viewportHeight / 2) {
+				cam.position.y -= 2;
+			} else {
+				cam.position.y = cam.viewportHeight / 2;
+			}
+		}
+		
+		cam.update();
+		renderer.getBatch().setProjectionMatrix(cam.combined);
+		
+		renderer.setView(cam);
+		renderer.render();
+		
+		renderer.getBatch().begin();
 			//Draw Hershey
-			batch.draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), hershey.getPos().x, hershey.getPos().y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
+			renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), hershey.getPos().x, hershey.getPos().y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
 			
 			//Draw the enemy
-			batch.draw(enemy.getTextureRegion(), enemy.getPos().x, enemy.getPos().y, 0, 0, Enemy.WIDTH, Enemy.HEIGHT, 2, 2, 0);
+			renderer.getBatch().draw(enemy.getTextureRegion(), enemy.getPos().x, enemy.getPos().y, 0, 0, Enemy.WIDTH, Enemy.HEIGHT, 2, 2, 0);
 			
 			//Draw the clock
 			String time = (Math.round(elapsed) < 10) ? "0" + Math.round(elapsed) : Integer.toString(Math.round(elapsed)); 
 			clockText.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			clockText.draw(batch, time, 0, Gdx.graphics.getHeight() / 2 - clockText.getLineHeight());
-		batch.end();
+			clockText.draw(renderer.getBatch(), time, cam.position.x, cam.position.y + cam.viewportHeight - 350);
+		renderer.getBatch().end();
 	}
 	
 	public void dispose() {

@@ -119,17 +119,21 @@ public class Hershey {
 			if(touchPos.y >= (pos.y + HEIGHT/2)) {
 				dir = UP;
 				accel.y = ACCELERATION * dir;
+				currAnimation = hersheyUp;
 			} else if(touchPos.y < (pos.y + HEIGHT/2)) {
 				dir = DOWN;
 				accel.y = ACCELERATION * dir;
+				currAnimation = hersheyDown;
 			}
 			
 			if(touchPos.x >= (pos.x + WIDTH/2) ) {
 				dir = RIGHT;
 				accel.x = ACCELERATION * dir;
+				currAnimation = hersheyRight;
 			} else if(touchPos.x < (pos.x + WIDTH/2)) {
 				dir = LEFT;
 				accel.x = ACCELERATION * dir;
+				currAnimation = hersheyLeft;
 			}
 		}
 		

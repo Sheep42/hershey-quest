@@ -3,16 +3,17 @@ package com.dshedd.hersheyquest.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.dshedd.hersheyquest.HersheyQuest;
-import com.dshedd.hersheyquest.entities.Enemy;
-import com.dshedd.hersheyquest.entities.Hershey;
 import com.dshedd.hersheyquest.system.World;
 
 public class GameScreen extends AbstractScreen{
 
 	HersheyQuest game;
 	protected World world;
-
+	
 	public GameScreen(HersheyQuest game) {
 		super(game);
 		this.game = game;
@@ -21,7 +22,7 @@ public class GameScreen extends AbstractScreen{
 	
 	@Override
 	public void show() {
-
+		
 	}
 	
 	@Override
