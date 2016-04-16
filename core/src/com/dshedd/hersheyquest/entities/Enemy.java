@@ -19,7 +19,7 @@ public class Enemy {
 	public static final int SPAWN = 5;
 	
 	public static final float ACCELERATION = 200f;
-	static final float MAX_VEL = 60f;
+	static final float MAX_VEL = 50f;
 	public static final float DRAG = 0.92f;
 	public static final float WIDTH = 32;
 	public static final float HEIGHT = 32;
