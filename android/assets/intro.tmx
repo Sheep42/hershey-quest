@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="22" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tileset.png" width="512" height="32"/>
+ </tileset>
+ <layer name="background" width="30" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA32VQQoDMQwD97bU/39wLy2IYaRDIE0T2ZZl7fs8z4v1GWf32//X4c7h3cV5YryBwfd2l7gWO2Me/j+Jx5hW34vfrP0KZr5PDpgj71gO+Tb3hkfuuTe81s+FvfI2rrMnFjO5Thy+Id/sG2vKOlt/qAP2q/Wg5Wl74/JkcS7aHetfq4P9Mr5MJ3bf9Gf9Ye2mF+ZKrkxDVuuaaebCnJtXmHeYdlts8wBimycQr/HCGc3zpoflWeTc+t1W05jlszRm3mrxmie0OaRH2ZwRx/ixuW0esmaAvWcei+uli+URnJ81+ysWOWg6a3pmXPO55hOMy73poc2Y8dR82Gow7zLclg91ZnPXeGxewP6Z5zQdrrzMr9r34QvfKoXAUAoAAA==
+  </data>
+ </layer>
+ <objectgroup name="entities" width="30" height="22">
+  <object name="Hershey" x="480" y="160" width="64" height="32"/>
+ </objectgroup>
+ <objectgroup name="collision" width="30" height="22"/>
+</map>

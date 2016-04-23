@@ -52,6 +52,8 @@ public class Hershey {
 	
 	Vector3 touchPos = new Vector3(); 
 	
+	private boolean controllable = true, moveUp = false, moveDown = false, moveRight = false, moveLeft = false;
+	
 	private OrthographicCamera cam;
 	
 	private float stateTime = 0, 
@@ -111,29 +113,48 @@ public class Hershey {
 	public void update(float delta) {
 		collide = false;
 		
+		if(!controllable) {
+			switch(dir){
+				case UP:
+					moveUp = true;
+					break;
+				case DOWN:
+					moveDown = true;
+					break;
+				case RIGHT:
+					moveRight = true;
+					break;
+				case LEFT:
+					moveLeft = true;
+					break;
+				default: 
+					break;
+			}
+		}
+		
 		//Handle key input
-		if(Gdx.input.isKeyPressed(Keys.UP)) {
+		if((controllable && Gdx.input.isKeyPressed(Keys.UP)) || moveUp) {
 			dir = UP;
 			accel.y = ACCELERATION;
 			currAnimation = hersheyUp;
-		} else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+		} else if((controllable && Gdx.input.isKeyPressed(Keys.DOWN)) || moveDown) {
 			dir = DOWN;
 			accel.y = -ACCELERATION;
 			currAnimation = hersheyDown;
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		if((controllable && Gdx.input.isKeyPressed(Keys.RIGHT)) || moveRight) {
 			dir = RIGHT;
 			accel.x = ACCELERATION;
 			currAnimation = hersheyRight;
-		} else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+		} else if((controllable && Gdx.input.isKeyPressed(Keys.LEFT)) || moveLeft) {
 			dir = LEFT;
 			accel.x = -ACCELERATION;
 			currAnimation = hersheyLeft;
 		} 
 		
 		//Handle touch input
-		if(Gdx.input.isTouched()) {
+		if(Gdx.input.isTouched() && controllable) {
 			touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 			cam.unproject(touchPos);
 			
@@ -220,6 +241,30 @@ public class Hershey {
 			if(objBounds.overlaps(bounds)) {
 				collide = true;
 				break;
+			}
+		}
+		
+		if(!controllable) {
+			if(moveUp) {
+				if(bounds.y + bounds.height >= cam.viewportHeight) {
+					collide = true;
+					dir = -1;
+				}
+			} else if (moveDown) {
+				if(bounds.y <= 0) {
+					collide = true;
+					dir = -1;
+				}
+			} else if (moveRight) {
+				if(bounds.x + bounds.width >= cam.viewportWidth) {
+					collide = true;
+					dir = -1;
+				}
+			} else if(moveLeft) {
+				if(bounds.x <= 0) {
+					collide = true;
+					dir = -1;
+				}
 			}
 		}
 		
@@ -317,5 +362,45 @@ public class Hershey {
 
 	public void setCurrAnimation(Animation currAnimation) {
 		this.currAnimation = currAnimation;
+	}
+
+	public boolean isControllable() {
+		return controllable;
+	}
+
+	public void setControllable(boolean controllable) {
+		this.controllable = controllable;
+	}
+
+	public boolean isMoveUp() {
+		return moveUp;
+	}
+
+	public void setMoveUp(boolean moveUp) {
+		this.moveUp = moveUp;
+	}
+
+	public boolean isMoveDown() {
+		return moveDown;
+	}
+
+	public void setMoveDown(boolean moveDown) {
+		this.moveDown = moveDown;
+	}
+
+	public boolean isMoveRight() {
+		return moveRight;
+	}
+
+	public void setMoveRight(boolean moveRight) {
+		this.moveRight = moveRight;
+	}
+
+	public boolean isMoveLeft() {
+		return moveLeft;
+	}
+
+	public void setMoveLeft(boolean moveLeft) {
+		this.moveLeft = moveLeft;
 	}
 }

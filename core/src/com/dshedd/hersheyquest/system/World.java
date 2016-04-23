@@ -17,23 +17,24 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.dshedd.hersheyquest.entities.Enemy;
 import com.dshedd.hersheyquest.entities.Hershey;
+import com.dshedd.hersheyquest.entities.Krissy;
 
 public class World {
 	
 	private Hershey hershey;
-	private NervousBar nervousBar;
+	private Krissy krissy;
 	private OrthographicCamera cam;
 	private Vector3 touchPos = new Vector3(0, 0, 0);
 	private SpriteBatch batch;
 	private BitmapFont clockText = new BitmapFont();
 	
 	protected TiledMap map;
+	protected MapProperties mapInfo;
 	protected OrthogonalTiledMapRenderer renderer;
 	protected TiledMapTileLayer collisionLayer;
 	protected Array<Enemy> enemies = new Array<Enemy>();
-	protected MapProperties mapInfo;
 	
-	private float elapsed = 0, touchTime = 0;
+	private float elapsed = 0, touchTime = 0, countDown = 120;
 	
 	public World() {
 		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -55,6 +56,8 @@ public class World {
 			} else if(obj.getName().equalsIgnoreCase("enemy")) {
 				Enemy enemy = new Enemy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
 				enemies.add(enemy);
+			} else if(obj.getName().equalsIgnoreCase("krissy")) {
+				krissy = new Krissy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
 			}
 		}
 		
@@ -65,6 +68,7 @@ public class World {
 		elapsed += delta;
 		
 		hershey.update(delta);
+		krissy.update(delta);
 		
 		for(Enemy enemy : enemies) { 
 			enemy.update(delta);
@@ -139,11 +143,22 @@ public class World {
 				renderer.getBatch().draw(enemy.getTextureRegion(), enemy.getPos().x, enemy.getPos().y, 0, 0, Enemy.WIDTH, Enemy.HEIGHT, 2, 2, 0);
 			}
 			
+			//Render Krissy
+			renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), krissy.getPos().x, krissy.getPos().y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 1, 1, 0);
+			
 			//Render Foreground
 			renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(2));
 			
 			//Draw the clock
-			String time = (Math.round(elapsed) < 10) ? "0" + Math.round(elapsed) : Integer.toString(Math.round(elapsed)); 
+			if(elapsed > 1 && countDown > 0) {
+				countDown -= 1;
+				elapsed = 0;
+			} else if(countDown < 0) {
+				countDown = 0;
+			}
+			
+			String time = (Math.round(countDown) < 10) ? "Time: 0" + Math.round(countDown) : "Time: " + Integer.toString(Math.round(countDown));
+			
 			clockText.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			clockText.draw(renderer.getBatch(), time, cam.position.x, cam.position.y + cam.viewportHeight - 350);
 		renderer.getBatch().end();
@@ -154,6 +169,10 @@ public class World {
 	}
 
 	private void checkCollisions(float delta) {
+		if(hershey.getBounds().overlaps(krissy.getBounds())) {
+			System.out.println("Win Case");
+		}
+		
 		for(Enemy enemy : enemies) {
 			if(hershey.getBounds().overlaps(enemy.getBounds())) {
 				touchTime += delta;
@@ -167,6 +186,8 @@ public class World {
 				}
 			}
 		}
+		
+		
 	}
 	
 	//Getters/Setters

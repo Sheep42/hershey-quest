@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32">
-  <image source="terrain.png" width="1024" height="2048"/>
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tileset.png" width="512" height="32"/>
  </tileset>
- <layer name="Foreground 1" width="30" height="30">
+ <layer name="background" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3DAQ0AAAzDoGqdfxEXckhYNVVVVd89oMtFIRAOAAA=
+   H4sIAAAAAAAAA5VWSY7DMAzLza7//+D2UAMEIS45GM44kUhRlDvneZ7Pbx3acR16PvTM7zl+ilO7wp/4qTiX13E9ZqnaXaw7n/R1cZOmE7bTTnFtOSQMjFsmRvFJOjbc9x+b8VMdyT/OR/huAzZycXzSfLizDQtzLtrTrKRZTzpznYu0cFjNjN395t2QH7mgFk1vU+33bFP+BTisffJw0p3/Zmyu2/lp6mFzJ9zcV3Pu7x7w2xobL3LNZ3hu8iheU38nfVWPk1+cDniOGjMHxp1ypJ6qfcF3U5+dn9T94PyE+KhvqsHlTJ5X/kgc3d2gPPzGE422y8S0taS49M7dk8kHikuTK+l8F9/z6s5p7wn1LZ+tgJtw3vgJ46bftbf1p1maeE46u+U828z5/U79z9T4UNX8dpbaepuZdD5wPXTecf123laz8QXCCzxmEA4AAA==
   </data>
  </layer>
- <layer name="Foreground 2" width="30" height="30">
+ <layer name="foreground" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA72V0W3DMAxEo3aSquAgbTeR9t+hLmACr8/nfOZDcCKJR/KOpMZ4PN5evN6P9XGsda59rMJ3nd/CnYnfBbs+4+8Sbtt8nn43znh3y8/U/gTW1vka11jbpv1O4RbuEKuw9sgxGKvPGFv7NZ/kinzd+XMsvO+Y6Je8bGBN+fG5+WdOzzg3z8mWMSxhEZ9n/j9lT55pT87p13wx92c1TZ9L+ZZwalxz596dDktntqNf9yN1dP7kgb1T4z8vJXty1X7d3+5545BD1q97zpp0bElf1hb1tnapBu+0suaeV6knmBtzZb26d+nX3CR9XQvm0nPlLpapPfPkueF5TH2Mm2Y+uUq6NQb7yFjmwDq5TpmftSU3Jb+eMbS1n7SftPbsavv0LtieXNNH6mdrb93SvCK2689Y5NA9x1li7Zf8roDnmNPM436q6TmuulDf1NvUzvXtd8b3Uz3xvueV7Z0j/W/hM7ctf/6mfJMmaRaleZpiTnHTr7Hcx+4N97Jryu8Ca8Hvke1TvXmGpHfLc92Lc9L95vpx3bjWUj9Zl8ZkvkmjVCfkLL1F6W1zHuldSFjmm7WTammFe8RL+j6rH88K41lT8sa7f36/jvX94vVzrF/JScXDEA4AAA==
+   H4sIAAAAAAAAA+3RKw4AIAwE0eWrev/zIhpMg6Ug5iUVVSNWAnBSwtWk7gh/p3vFlG9q8n1bUnez5N7rLgAA+NMCrC4R/xAOAAA=
   </data>
  </layer>
- <layer name="Background" width="30" height="30">
+ <layer name="foreground" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYBSMAlRwZIDMfUIje2ll7kgDlKYLcvVTGn+0jv/R/DIKRsEoGAWjYCgDAE+LOysQDgAA
+   H4sIAAAAAAAAA+3BAQEAAACCIP+vbkhAAQAA8Gh7blyXEA4AAA==
   </data>
  </layer>
  <objectgroup name="collision" width="30" height="30">
@@ -23,17 +23,17 @@
   <object x="-32" y="960" width="992" height="32"/>
   <object x="960" y="0" width="32" height="992"/>
   <object x="-32" y="-32" width="1024" height="32"/>
-  <object x="192" y="425" width="32" height="52"/>
-  <object x="448" y="298" width="32" height="52"/>
-  <object x="704" y="267" width="32" height="52"/>
-  <object x="703" y="427" width="32" height="52"/>
-  <object x="512" y="492" width="32" height="52"/>
-  <object x="256" y="523" width="32" height="52"/>
+  <object x="608" y="193" width="160" height="32"/>
+  <object x="608" y="320" width="64" height="32"/>
+  <object x="704" y="320" width="64" height="32"/>
+  <object x="761" y="231" width="6" height="84"/>
+  <object x="611" y="228" width="6" height="91"/>
  </objectgroup>
  <objectgroup name="entities" width="30" height="30">
   <object name="Hershey" x="224" y="128" width="64" height="32"/>
   <object name="Enemy" x="736" y="704" width="64" height="32"/>
   <object name="Enemy" x="512" y="768" width="64" height="32"/>
   <object name="Enemy" x="672" y="832" width="64" height="32"/>
+  <object name="Krissy" x="672" y="256" width="64" height="32"/>
  </objectgroup>
 </map>
