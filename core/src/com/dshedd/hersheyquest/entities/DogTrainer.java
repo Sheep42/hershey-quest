@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class DogTrainer {
+	//Testing commit
 	SpriteBatch batch = new SpriteBatch();
 	
 	public static final int IDLE = 0;
