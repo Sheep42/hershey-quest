@@ -27,6 +27,7 @@ public class World {
 	private Vector3 touchPos = new Vector3(0, 0, 0);
 	private SpriteBatch batch;
 	private BitmapFont clockText = new BitmapFont();
+	private int levelIndex  = 1;
 	
 	protected TiledMap map;
 	protected MapProperties mapInfo;
@@ -129,8 +130,8 @@ public class World {
 		
 		renderer.getBatch().begin();
 			//Render Background
-			renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
-			renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
+			renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("background"));
+			renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("foreground"));
 			
 			//Draw Hershey
 			renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), hershey.getPos().x, hershey.getPos().y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 1, 1, 0);
@@ -140,7 +141,7 @@ public class World {
 			
 			//Draw the enemy
 			for(Enemy enemy : enemies) {
-				renderer.getBatch().draw(enemy.getTextureRegion(), enemy.getPos().x, enemy.getPos().y, 0, 0, Enemy.WIDTH, Enemy.HEIGHT, 2, 2, 0);
+				renderer.getBatch().draw(enemy.getTextureRegion(), enemy.getPos().x, enemy.getPos().y, 0, 0, Enemy.WIDTH, Enemy.HEIGHT, 1, 1, 0);
 			}
 			
 			//Render Krissy
