@@ -160,31 +160,33 @@ public class Hershey {
 			
 			if(touchPos.y >= (pos.y + HEIGHT/2)) {
 				accel.y = ACCELERATION;
+				
+				if(vel.y > 25f && (vel.x < 25f && vel.x > -25f)){
+					dir = UP;
+					currAnimation = hersheyUp;
+				}
 			} else if(touchPos.y < (pos.y + HEIGHT/2)) {
 				accel.y = -ACCELERATION;
+				
+				if(vel.y < -25f && (vel.x < 25f && vel.x > -25f)){
+					dir = DOWN;
+					currAnimation = hersheyDown;
+				}
 			}
 
 			if(touchPos.x >= (pos.x + WIDTH/2) ) {
 				accel.x = ACCELERATION;
-			} else if(touchPos.x < (pos.x + WIDTH/2)) {
-				accel.x = -ACCELERATION;
-			}
-			
-			if(accel.x > 0 || accel.y > 0) {
-				if(vel.x > vel.y) {
+				
+				if(vel.x > 25f && (vel.y < 25f && vel.y > -25f)){
 					dir = RIGHT;
 					currAnimation = hersheyRight;
-				} else {
-					dir = UP;
-					currAnimation = hersheyUp;
 				}
-			} else if(accel.x < 0 || accel.y < 0) {
-				if(vel.x < vel.y) {
+			} else if(touchPos.x < (pos.x + WIDTH/2)) {
+				accel.x = -ACCELERATION;
+				
+				if(vel.x < -25f && (vel.y < 25f && vel.y > -25f)){
 					dir = LEFT;
 					currAnimation = hersheyLeft;
-				} else {
-					dir = DOWN;
-					currAnimation = hersheyDown;
 				}
 			}
 		}

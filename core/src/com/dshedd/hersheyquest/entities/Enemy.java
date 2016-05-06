@@ -13,17 +13,20 @@ public class Enemy {
 	SpriteBatch batch = new SpriteBatch();
 	
 	public static final int IDLE = 0;
-	public static final int LEFT = -1;
-	public static final int RIGHT = 1;
-	public static final int UP = 1;
-	public static final int DOWN = -1;
+	public static final int LEFT = 1;
+	public static final int RIGHT = 2;
+	public static final int UP = 3;
+	public static final int DOWN = 4;
 	public static final int SPAWN = 5;
 	
 	public static final float ACCELERATION = 200f;
 	static final float MAX_VEL = 50f;
 	public static final float DRAG = 0.92f;
-	public static final float WIDTH = 32;
-	public static final float HEIGHT = 32;
+	public static final float WIDTH = 64;
+	public static final float HEIGHT = 64;
+
+	public static final float BOUNDS_SHORT = 24;
+	public static final float BOUNDS_LONG = 55;
 	
 	private int state = SPAWN;
 	private int dir = RIGHT;
@@ -51,8 +54,8 @@ public class Enemy {
 		this.hershey = hershey;
 		
 		//Bounds
-		bounds.width = WIDTH;
-		bounds.height = HEIGHT;
+		bounds.width = BOUNDS_LONG;
+		bounds.height = BOUNDS_SHORT;
 		bounds.x = pos.x;
 		bounds.y = pos.y;
 				
@@ -81,26 +84,47 @@ public class Enemy {
 	}
 	
 	public void update(float delta) {
-		if(pos.y <= hershey.getPos().y) {
+		if(pos.y <= hershey.getPos().y ) {
 			dir = UP;
-			accel.y = ACCELERATION * dir;
-			currAnimation = enemyUp;
+			accel.y = ACCELERATION;
+			
+			if(vel.y > 25f && (vel.x < 25f && vel.x > -25f))
+				currAnimation = enemyUp;
 		} else if(pos.y > hershey.getPos().y) {
 			dir = DOWN;
-			accel.y = ACCELERATION * dir;
-			currAnimation = enemyDown;
+			accel.y = -ACCELERATION;
+			
+			if(vel.y < -25f && (vel.x < 25f && vel.x > -25f))
+				currAnimation = enemyDown;
 		}
 		
 		if(pos.x <= hershey.getPos().x) {
 			dir = RIGHT;
-			accel.x = ACCELERATION * dir;
-			currAnimation = enemyRight;
+			accel.x = ACCELERATION;
+			
+			if(vel.x > 25f && (vel.y < 25f && vel.y > -25f))
+				currAnimation = enemyRight;
 		} else if(pos.x > hershey.getPos().x) {
 			dir = LEFT;
-			accel.x = ACCELERATION * dir;
-			currAnimation = enemyLeft;
+			accel.x = -ACCELERATION;
+			
+			if(vel.x < -25f && (vel.y < 25f && vel.y > -25f))
+				currAnimation = enemyLeft;
 		} 
 		
+		//Reset the bounding box
+		switch(dir) {
+			case LEFT: case RIGHT:
+				bounds.width = BOUNDS_LONG;
+				bounds.height = BOUNDS_SHORT;
+				break;
+			case UP: case DOWN:
+				bounds.width = BOUNDS_SHORT;
+				bounds.height = BOUNDS_LONG;
+				break;
+		}
+				
+		//Movement
 		accel.scl(delta);
 		vel.add(accel.x, accel.y);
 		
