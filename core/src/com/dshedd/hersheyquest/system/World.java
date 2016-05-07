@@ -85,25 +85,18 @@ public class World {
 		if(((hershey.getPos().x - (cam.viewportWidth / 2)) > 0) && (hershey.getPos().x + (cam.viewportWidth / 2) < (Integer)mapInfo.get("width") - 30)) { 
 			if(cam.position.x < (hershey.getPos().x + (hershey.WIDTH / 2))) {
 				cam.position.x += 2;
-				System.out.println("1st: if");
-			} else {
-				System.out.println("1st: else");
 			}
 		} else if((hershey.getPos().x - (cam.viewportWidth / 2)) <= 0) {
 			if(cam.position.x > cam.viewportWidth / 2) {
 				cam.position.x -= 2;
-				System.out.println("2nd: if");
 			} else {
 				cam.position.x = cam.viewportWidth / 2;
-				System.out.println("2nd: else");
 			}
 		} else if((hershey.getPos().x + (cam.viewportWidth / 2) > ((Integer)mapInfo.get("width") * 32) - 30)) {
 			if(cam.position.x < (((Integer)mapInfo.get("width") * 32) - (cam.viewportWidth / 2))) {
 				cam.position.x += 2;
-				System.out.println("3rd: if");
 			} else {
-				cam.position.x = ((Integer)mapInfo.get("width")) + (cam.viewportWidth / 2) - 30;
-				System.out.println("3rd: else");
+				cam.position.x = ((Integer)mapInfo.get("width") * 32) - (cam.viewportWidth / 2);
 			}
 		}
 		
