@@ -38,6 +38,7 @@ public class DogTrainer {
 	private Vector2 vel = new Vector2();
 	
 	private float stateTime = 0;
+	private boolean triggered = false;
 	
 	public DogTrainer(float x, float y) {
 		//Init position
@@ -137,5 +138,13 @@ public class DogTrainer {
 
 	public void setStateTime(float stateTime) {
 		this.stateTime = stateTime;
+	}
+
+	public boolean isTriggered() {
+		return triggered;
+	}
+
+	public void setTriggered(boolean triggered) {
+		this.triggered = triggered;
 	} 
 }

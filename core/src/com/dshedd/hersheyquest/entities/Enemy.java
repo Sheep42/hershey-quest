@@ -41,6 +41,7 @@ public class Enemy {
 	private Vector2 vel = new Vector2();
 	
 	private float stateTime = 0;
+	private boolean trained = false;
 	
 	Animation currAnimation, enemyUp, enemyDown, enemyLeft, enemyRight;
 	
@@ -84,33 +85,35 @@ public class Enemy {
 	}
 	
 	public void update(float delta) {
-		if(pos.y <= hershey.getPos().y ) {
-			dir = UP;
-			accel.y = ACCELERATION;
+		if(pos.dst(hershey.getPos()) <= 400 && !trained) {
+			if(pos.y <= hershey.getPos().y ) {
+				dir = UP;
+				accel.y = ACCELERATION;
+				
+				if(vel.y > 25f && (vel.x < 25f && vel.x > -25f))
+					currAnimation = enemyUp;
+			} else if(pos.y > hershey.getPos().y) {
+				dir = DOWN;
+				accel.y = -ACCELERATION;
+				
+				if(vel.y < -25f && (vel.x < 25f && vel.x > -25f))
+					currAnimation = enemyDown;
+			}
 			
-			if(vel.y > 25f && (vel.x < 25f && vel.x > -25f))
-				currAnimation = enemyUp;
-		} else if(pos.y > hershey.getPos().y) {
-			dir = DOWN;
-			accel.y = -ACCELERATION;
-			
-			if(vel.y < -25f && (vel.x < 25f && vel.x > -25f))
-				currAnimation = enemyDown;
+			if(pos.x <= hershey.getPos().x) {
+				dir = RIGHT;
+				accel.x = ACCELERATION;
+				
+				if(vel.x > 25f && (vel.y < 25f && vel.y > -25f))
+					currAnimation = enemyRight;
+			} else if(pos.x > hershey.getPos().x) {
+				dir = LEFT;
+				accel.x = -ACCELERATION;
+				
+				if(vel.x < -25f && (vel.y < 25f && vel.y > -25f))
+					currAnimation = enemyLeft;
+			} 
 		}
-		
-		if(pos.x <= hershey.getPos().x) {
-			dir = RIGHT;
-			accel.x = ACCELERATION;
-			
-			if(vel.x > 25f && (vel.y < 25f && vel.y > -25f))
-				currAnimation = enemyRight;
-		} else if(pos.x > hershey.getPos().x) {
-			dir = LEFT;
-			accel.x = -ACCELERATION;
-			
-			if(vel.x < -25f && (vel.y < 25f && vel.y > -25f))
-				currAnimation = enemyLeft;
-		} 
 		
 		//Reset the bounding box
 		switch(dir) {
@@ -223,5 +226,13 @@ public class Enemy {
 
 	public void setCurrAnimation(Animation currAnimation) {
 		this.currAnimation = currAnimation;
+	}
+
+	public boolean isTrained() {
+		return trained;
+	}
+
+	public void setTrained(boolean trained) {
+		this.trained = trained;
 	} 
 }

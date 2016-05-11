@@ -10,7 +10,7 @@
  </layer>
  <layer name="foreground" width="48" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UMQrAIBAFUSPGyvufNxYJ6GLjEthV58EvLIRpNAQAI+Xdqk7rv+qimKXZ/luc048tGvTbmu3PzZ3vLVjS/D+e/qxd+jXzYPV+AAAAAL0H1bOvT4AWAAA=
+   H4sIAAAAAAAAA+3OMQoAIBADwXuA/3+vjY2tiBFuBtKl2CroY6zd/r6iP0t/lv4s/Vkn/T+uQz8AALCbtiCKh4AWAAA=
   </data>
  </layer>
  <layer name="foreground" width="48" height="30">
@@ -20,20 +20,17 @@
  </layer>
  <objectgroup name="collision" width="48" height="30">
   <object x="1536" y="0" width="32" height="960"/>
-  <object x="608" y="193" width="160" height="32"/>
-  <object x="608" y="320" width="32" height="32"/>
-  <object x="704" y="320" width="64" height="32"/>
-  <object x="761" y="231" width="6" height="84"/>
-  <object x="611" y="228" width="6" height="91"/>
   <object x="0" y="-32" width="1536" height="32"/>
   <object x="-32" y="0" width="32" height="960"/>
   <object x="0" y="960" width="1536" height="32"/>
  </objectgroup>
  <objectgroup name="entities" width="48" height="30">
   <object name="Hershey" x="224" y="128" width="64" height="32"/>
-  <object name="Enemy" x="736" y="704" width="64" height="32"/>
-  <object name="Enemy" x="512" y="768" width="64" height="32"/>
-  <object name="Enemy" x="672" y="832" width="64" height="32"/>
-  <object name="Krissy" x="672" y="256" width="64" height="32"/>
+  <object name="Enemy" x="160" y="480" width="64" height="32"/>
+  <object name="Enemy" x="800" y="672" width="64" height="32"/>
+  <object name="Enemy" x="896" y="768" width="64" height="32"/>
+  <object name="Krissy" x="1408" y="96" width="64" height="32"/>
+  <object name="DogTrainer" x="320" y="352" width="32" height="64"/>
+  <object name="DogTrainer" x="992" y="512" width="32" height="64"/>
  </objectgroup>
 </map>

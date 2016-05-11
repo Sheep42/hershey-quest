@@ -32,18 +32,8 @@ public class GameScreen extends AbstractScreen{
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		if(!game.isPaused()) {
-			world.update(delta);
-		}
-		
+		world.update(delta);		
 		world.render(delta);
-		
-		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			if(game.isPaused())
-				game.setPaused(false);
-			else
-				game.setPaused(true);
-		}
 	}
 	
 	@Override
