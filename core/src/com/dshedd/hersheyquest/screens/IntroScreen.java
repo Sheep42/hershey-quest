@@ -19,6 +19,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.dshedd.hersheyquest.HersheyQuest;
 import com.dshedd.hersheyquest.entities.Hershey;
 
@@ -47,6 +49,8 @@ public class IntroScreen extends AbstractScreen {
 		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
+		
+		game.setViewport(new ScalingViewport(Scaling.fit, game.screenWidth, game.screenHeight, cam));
 		
 		map = new TmxMapLoader().load("intro.tmx");
 		

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="48" height="30" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="song" value="level1"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="tileset.png" width="256" height="32"/>
+ </tileset>
+ <layer name="background" width="48" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA82WSW7EMAwELcvI/5+cOYyBQqXoyS05CN5kLs1mU+s4jv1a52stXS+sE/tO7NvvdcVz7eP3aS+fd1wXbF665576n7aveKbt+97x3O9oez/Y3bBJP/eehX/sc4qX+wpH502Mtt7f7xyTczKujpHx8x/GbnwZi2vEWFf4N2687mGP/3eNiNPXexnDwu+pR075WmHP/N+wS6zvmM4PfpbiN0aFuzErThnfyT/xJpcYv3lurjvXio34T31nDm89T7rnvtsRk2Mgx+69zN/3tF28cA+6j71/xTPzcUzmJZ/Nn6091u3SOGvPdXRNqm932DF/Vtx7L/MnT9gP5lHVq3rO9qwBxs34ewbQhrm25J+xmlMTPjXXrqNzc4zmhPlmm8zVWrCHd5O2EGPrFXGzFhN/Ymr+Oy7mavueIeZezXfXzzrlMwL7gb4Y05YN89HxV87075zMX++r+c7cnK85YS6zlqzVf1wTX4nzX8f4KX7PaWuDa1096JlUXK8+JU+Io3ldPVdn1Jr95m7pvPvA+Rce5rhnm2OxPpg7pRk+T9Z5zDY9h9yzzJH/2I5x2rEY61O9PN88t/jO2sOeYj7TvDGXrVvTWafOUaWnztn+SodZ6+kMUjUsv/X/b7W7uF5nlulc4N56wrjODrZVumkOWzf8nbibJ9VzT2ej6+jcrC+Oqeaq46nzTOXla/W8NWHqw6lepaOunX085UMNo06ar8Rz0vrSfveWdbv61XV1DR1n9bXrUz3ySYuu4yc+1sWqo2tQHC4s6cP5lBYU16qXpz7c8l21Lr7YPzEo+6eWcSr+m8uMfckfa7y0tzhnLTJWdWYwl8zFNdzXrKjn4tWTnrLWxq56c+la2m19edLgO85v9Ll59YAWAAA=
+  </data>
+ </layer>
+ <layer name="foreground" width="48" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3OIQoAQAwDwcr+/8X1B+dqUmZgITJVsK+f0vRnp0j/DwAAAMANAzCsfvmAFgAA
+  </data>
+ </layer>
+ <layer name="foreground" width="48" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQlPoAAAAAAA4G/05LgQgBYAAA==
+  </data>
+ </layer>
+ <objectgroup name="collision" width="48" height="30">
+  <object x="1536" y="0" width="32" height="960"/>
+  <object x="0" y="-32" width="1536" height="32"/>
+  <object x="-32" y="0" width="32" height="960"/>
+  <object x="0" y="960" width="1536" height="32"/>
+  <object x="192" y="96" width="32" height="96"/>
+  <object x="224" y="96" width="96" height="32"/>
+  <object x="288" y="96" width="32" height="96"/>
+ </objectgroup>
+ <objectgroup name="entities" width="48" height="30">
+  <object name="Hershey" x="224" y="160" width="64" height="32"/>
+  <object name="Enemy" x="160" y="544" width="64" height="32"/>
+  <object name="Enemy" x="800" y="672" width="64" height="32"/>
+  <object name="Enemy" x="896" y="768" width="64" height="32"/>
+  <object name="Krissy" x="1408" y="96" width="64" height="32"/>
+  <object name="DogTrainer" x="320" y="352" width="32" height="64"/>
+  <object name="DogTrainer" x="992" y="512" width="32" height="64"/>
+ </objectgroup>
+</map>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="80" height="60" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="tileset.png" width="256" height="32"/>
+ </tileset>
+ <layer name="background" width="80" height="60">
+  <data encoding="base64" compression="gzip">
+   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
+  </data>
+ </layer>
+ <layer name="foreground" width="80" height="60">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3QMRLDMBBCUZW+/4nTpkyEZQP7mdlWgnettS6O47iD9523uyQefnP8HLs6dkrqqnbaCX744Yefw6mddoIffqc6ndyIn+/bLp3w83oPP9+ujp3w83oPvzNdXQyT/dyCnxb8tLj7Tfi3ZQd+mf+27MAv89+WHfhl/tuyA7/Mf1t24Jf5b8sO/DL/bdmB3/P/3h38tOCnZYLf3b3ww2+63y+Z7qcGPy34aWnx292kBj8t+GnBT0uCn+umJ+/ffUre3oqf37Xvw8/78MNv4n0AsrjszwBLAAA=
+  </data>
+ </layer>
+ <objectgroup name="collision" width="80" height="60">
+  <object x="0" y="-32" width="2560" height="32"/>
+  <object x="-32" y="0" width="32" height="1920"/>
+  <object x="0" y="1920" width="2560" height="32"/>
+  <object x="2560" y="0" width="32" height="1920"/>
+  <object x="128" y="160" width="128" height="32"/>
+  <object x="128" y="192" width="32" height="608"/>
+  <object x="160" y="800" width="224" height="32"/>
+  <object x="352" y="832" width="32" height="640"/>
+  <object x="224" y="1440" width="128" height="32"/>
+  <object x="224" y="1472" width="32" height="256"/>
+  <object x="256" y="1696" width="544" height="32"/>
+  <object x="768" y="1408" width="32" height="288"/>
+  <object x="512" y="1408" width="256" height="32"/>
+  <object x="480" y="800" width="32" height="640"/>
+  <object x="512" y="800" width="832" height="32"/>
+  <object x="1312" y="832" width="32" height="544"/>
+  <object x="1344" y="1344" width="256" height="32"/>
+  <object x="1696" y="1344" width="288" height="32"/>
+  <object x="1856" y="416" width="128" height="32"/>
+  <object x="1824" y="192" width="32" height="256"/>
+  <object x="1856" y="192" width="416" height="32"/>
+  <object x="2272" y="192" width="32" height="256"/>
+  <object x="2080" y="416" width="192" height="32"/>
+  <object x="1952" y="448" width="32" height="800"/>
+  <object x="2080" y="448" width="32" height="1216"/>
+  <object x="2112" y="1632" width="256" height="32"/>
+  <object x="2336" y="1536" width="32" height="96"/>
+  <object x="2336" y="1504" width="160" height="32"/>
+  <object x="2464" y="1536" width="32" height="224"/>
+  <object x="1984" y="1760" width="480" height="32"/>
+  <object x="1952" y="1376" width="32" height="416"/>
+  <object x="1568" y="1376" width="32" height="544"/>
+  <object x="1696" y="1376" width="32" height="544"/>
+  <object x="256" y="192" width="32" height="448"/>
+  <object x="256" y="640" width="32" height="32"/>
+  <object x="288" y="672" width="1056" height="32"/>
+  <object x="1312" y="64" width="32" height="608"/>
+  <object x="1344" y="64" width="128" height="32"/>
+  <object x="1440" y="96" width="32" height="1152"/>
+  <object x="1472" y="1216" width="480" height="32"/>
+  <object x="1600" y="1888" width="96" height="32"/>
+ </objectgroup>
+ <objectgroup name="entities" width="80" height="60">
+  <object name="Hershey" x="160" y="256" width="64" height="32"/>
+  <object name="Krissy" x="2400" y="1568" width="64" height="32"/>
+  <object name="Enemy" x="1920" y="256" width="32" height="32"/>
+  <object name="Enemy" x="1984" y="256" width="32" height="32"/>
+  <object name="DogTrainer" x="2144" y="320" width="32" height="32"/>
+  <object name="Enemy" x="1376" y="128" width="32" height="32"/>
+  <object name="DogTrainer" x="1632" y="1824" width="32" height="32"/>
+  <object name="DogTrainer" x="480" y="1632" width="32" height="32"/>
+  <object name="Enemy" x="320" y="1568" width="32" height="32"/>
+  <object name="Enemy" x="736" y="1568" width="32" height="32"/>
+  <object name="Enemy" x="672" y="1664" width="32" height="32"/>
+  <object name="DogTrainer" x="384" y="1664" width="32" height="32"/>
+ </objectgroup>
+</map>

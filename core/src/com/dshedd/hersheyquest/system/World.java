@@ -19,6 +19,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.dshedd.hersheyquest.HersheyQuest;
 import com.dshedd.hersheyquest.entities.DogTrainer;
 import com.dshedd.hersheyquest.entities.Enemy;
@@ -50,7 +52,7 @@ public class World {
 	
 	private float elapsed = 0, touchTime = 0, countDown = 120, nervousX = 0, nervousY = 0;
 	
-	public World() {
+	public World(HersheyQuest game) {
 		//Instructions + Pause mask
 		Pixmap maskRect = new Pixmap((int)Gdx.graphics.getWidth(), (int)Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
 		maskRect.setColor(0f, 0f, 0f, 0.5f);
@@ -69,31 +71,10 @@ public class World {
 		screenText = new BitmapFont(Gdx.files.internal("font/font.fnt"));
 		screenText.getRegion().setRegionWidth(Gdx.graphics.getWidth() / 2);
 		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		game.setViewport(new ScalingViewport(Scaling.fit, game.screenWidth, game.screenHeight, cam));
+		game.getViewport().update((int)cam.viewportWidth, (int)cam.viewportHeight);
 		
-		map = new TmxMapLoader().load("map.tmx");
-		mapInfo = map.getProperties();
-		
-		renderer = new OrthogonalTiledMapRenderer(map);
-		
-		MapLayer entities = map.getLayers().get("entities");
-		
-		Iterator<MapObject> mapObjectIterator = entities.getObjects().iterator();
-		while(mapObjectIterator.hasNext()) {
-			MapObject obj = mapObjectIterator.next();
-			MapProperties objProps = obj.getProperties();
-			
-			if(obj.getName().equalsIgnoreCase("hershey")) {
-				hershey = new Hershey((Float)objProps.get("x"), (Float)objProps.get("y"), cam, map.getLayers().get("collision"));
-			} else if(obj.getName().equalsIgnoreCase("enemy")) {
-				Enemy enemy = new Enemy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
-				enemies.add(enemy);
-			} else if(obj.getName().equalsIgnoreCase("krissy")) {
-				krissy = new Krissy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
-			} else if(obj.getName().equalsIgnoreCase("DogTrainer")) {
-				DogTrainer dogTrainer = new DogTrainer((Float)objProps.get("x"), (Float)objProps.get("y"));
-				trainers.add(dogTrainer);
-			}
-		}
+		loadMap();
 		
 		batch = new SpriteBatch();
 	}
@@ -137,7 +118,7 @@ public class World {
 		cam.position.set(hershey.getPos().x, hershey.getPos().y, 0);
 		
 		//Handle map edges
-		if(((hershey.getPos().x - (cam.viewportWidth / 2)) > 0) && (hershey.getPos().x + (cam.viewportWidth / 2) < (Integer)mapInfo.get("width") - 30)) { 
+		if(((hershey.getPos().x - (cam.viewportWidth / 2)) > 0) && (hershey.getPos().x + (cam.viewportWidth / 2) < ((Integer)mapInfo.get("width")*32) - 30)) { 
 			if(cam.position.x < (hershey.getPos().x + (hershey.WIDTH / 2))) {
 				cam.position.x += 2;
 			}
@@ -155,7 +136,7 @@ public class World {
 			}
 		}
 		
-		if((hershey.getPos().y - (cam.viewportHeight / 2) > 0) && (hershey.getPos().y - (cam.viewportHeight)) < (Integer)mapInfo.get("height") - 30) { 
+		if((hershey.getPos().y - (cam.viewportHeight / 2) > 0) && (hershey.getPos().y + (cam.viewportHeight / 2)) < ((Integer)mapInfo.get("height")*32) - 30) { 
 			if(cam.position.y < (hershey.getPos().y + (hershey.HEIGHT / 2))) {
 				cam.position.y += 2;
 			}
@@ -165,11 +146,11 @@ public class World {
 			} else {
 				cam.position.y = cam.viewportHeight / 2;
 			}
-		} else if((hershey.getPos().y + (cam.viewportHeight)) > (Integer)mapInfo.get("height")) {
-			if(cam.position.y < ((Integer)mapInfo.get("height") - (cam.viewportHeight / 2))) {
-				cam.position.y -= 2;
+		} else if((hershey.getPos().y + (cam.viewportHeight)) > ((Integer)mapInfo.get("height")*32)) {
+			if(cam.position.y < ((Integer)mapInfo.get("height") * 32) - (cam.viewportHeight / 2)) {
+				cam.position.y += 2;
 			} else {
-				cam.position.y = cam.viewportHeight + (Integer)mapInfo.get("height") - 30;
+				cam.position.y = ((Integer)mapInfo.get("height")*32) - (cam.viewportHeight / 2);
 			}
 		}
 		
@@ -230,6 +211,14 @@ public class World {
 			if(instTrigger) {
 				screenText.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 				screenText.draw(renderer.getBatch(), currPage, (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 50, cam.position.y + 100);
+				
+				if(instructions.size == 4) {
+					renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
+				} else if (instructions.size == 2) {
+					renderer.getBatch().draw(trainers.get(0).getAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, DogTrainer.WIDTH, DogTrainer.HEIGHT, 2, 2, 0);
+				} else if (instructions.size == 1) {
+					renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
+				}
 			}
 		renderer.getBatch().end();
 	}
@@ -240,7 +229,10 @@ public class World {
 
 	private void checkCollisions(float delta) {
 		if(hershey.getBounds().overlaps(krissy.getBounds())) {
-			System.out.println("Win Case");
+			if(levelIndex < 3) {
+				levelIndex++;
+				loadMap();
+			}
 		}
 		
 		for(Enemy enemy : enemies) {
@@ -270,6 +262,38 @@ public class World {
 		
 	}
 	
+	private void loadMap(){
+		hershey = null;
+		krissy = null;
+		enemies.clear();
+		trainers.clear();
+		
+		map = new TmxMapLoader().load("level-" + levelIndex + ".tmx");
+		mapInfo = map.getProperties();
+		
+		renderer = new OrthogonalTiledMapRenderer(map);
+		
+		MapLayer entities = map.getLayers().get("entities");
+		
+		Iterator<MapObject> mapObjectIterator = entities.getObjects().iterator();
+		while(mapObjectIterator.hasNext()) {
+			MapObject obj = mapObjectIterator.next();
+			MapProperties objProps = obj.getProperties();
+			
+			if(obj.getName().equalsIgnoreCase("hershey")) {
+				hershey = new Hershey((Float)objProps.get("x"), (Float)objProps.get("y"), cam, map.getLayers().get("collision"));
+			} else if(obj.getName().equalsIgnoreCase("enemy")) {
+				Enemy enemy = new Enemy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
+				enemies.add(enemy);
+			} else if(obj.getName().equalsIgnoreCase("krissy")) {
+				krissy = new Krissy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
+			} else if(obj.getName().equalsIgnoreCase("DogTrainer")) {
+				DogTrainer dogTrainer = new DogTrainer((Float)objProps.get("x"), (Float)objProps.get("y"));
+				trainers.add(dogTrainer);
+			}
+		}
+	}
+	
 	//Getters/Setters
 	public Hershey getHershey() {
 		return hershey;
@@ -285,5 +309,13 @@ public class World {
 
 	public void setInstTrigger(boolean instTrigger) {
 		this.instTrigger = instTrigger;
+	}
+
+	public OrthographicCamera getCam() {
+		return cam;
+	}
+
+	public void setCam(OrthographicCamera cam) {
+		this.cam = cam;
 	}
 }

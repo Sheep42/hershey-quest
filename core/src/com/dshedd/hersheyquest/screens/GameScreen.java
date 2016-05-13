@@ -1,11 +1,8 @@
 package com.dshedd.hersheyquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.dshedd.hersheyquest.HersheyQuest;
 import com.dshedd.hersheyquest.system.World;
 
@@ -17,7 +14,8 @@ public class GameScreen extends AbstractScreen{
 	public GameScreen(HersheyQuest game) {
 		super(game);
 		this.game = game;
-		world = new World();
+		
+		world = new World(game);
 	}
 	
 	@Override

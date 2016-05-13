@@ -35,8 +35,8 @@ public class Hershey {
 	public static final float WIDTH = 64;
 	public static final float HEIGHT = 64;
 	
-	public static final float BOUNDS_SHORT = 24;
-	public static final float BOUNDS_LONG = 55;
+	public static final float BOUNDS_SHORT = 32;
+	public static final float BOUNDS_LONG = 32;
 	
 	private int state = SPAWN;
 	private int dir = RIGHT;
