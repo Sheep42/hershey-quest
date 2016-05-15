@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ import com.dshedd.hersheyquest.entities.DogTrainer;
 import com.dshedd.hersheyquest.entities.Enemy;
 import com.dshedd.hersheyquest.entities.Hershey;
 import com.dshedd.hersheyquest.entities.Krissy;
+import com.dshedd.hersheyquest.screens.IntroScreen;
 
 public class World {
 	
@@ -35,8 +37,8 @@ public class World {
 	private Vector3 touchPos = new Vector3(0, 0, 0);
 	private SpriteBatch batch;
 	private BitmapFont nervousText, screenText;
-	private int levelIndex  = 1;
-	private boolean instTrigger = true;
+	private int levelIndex = 3;
+	private boolean instTrigger = true, endGame = false, lost = false;
 	
 	protected TiledMap map;
 	protected MapProperties mapInfo;
@@ -49,6 +51,8 @@ public class World {
 	
 	Texture mask;
 	String currPage;
+	Music levelSong;
+	HersheyQuest game;
 	
 	private float elapsed = 0, touchTime = 0, countDown = 120, nervousX = 0, nervousY = 0;
 	
@@ -71,6 +75,7 @@ public class World {
 		screenText = new BitmapFont(Gdx.files.internal("font/font.fnt"));
 		screenText.getRegion().setRegionWidth(Gdx.graphics.getWidth() / 2);
 		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		this.game = game;
 		game.setViewport(new ScalingViewport(Scaling.fit, game.screenWidth, game.screenHeight, cam));
 		game.getViewport().update((int)cam.viewportWidth, (int)cam.viewportHeight);
 		
@@ -81,6 +86,12 @@ public class World {
 	
 	public void update(float delta){
 		if(!instTrigger && !HersheyQuest.paused) {
+			
+			if(endGame) {
+				levelSong.stop();
+				game.setScreen(new IntroScreen(game));
+			}
+			
 			elapsed += delta;
 	
 			hershey.update(delta);
@@ -97,9 +108,24 @@ public class World {
 			checkCollisions(delta);
 		}
 		
-		if(!instTrigger){
+		if(!instTrigger && !endGame){
 			if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 				HersheyQuest.paused = !HersheyQuest.paused;
+			}
+			
+			if(hershey.getNervousPercent() > 0.99) {
+				instructions.clear();
+				instructions.add("You Lost! \n\nHershey was so nervous that he \ncouldn't control his bowels...");
+				currPage = instructions.get(0);
+				instTrigger = true;
+				endGame = true;
+				lost = true;
+				
+				levelSong.stop();
+				levelSong = null;
+				levelSong = Gdx.audio.newMusic(Gdx.files.internal("game-over.wav"));
+				levelSong.setLooping(true);
+				levelSong.play();
 			}
 		} else {
 			if(Gdx.input.isKeyJustPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
@@ -212,13 +238,22 @@ public class World {
 				screenText.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 				screenText.draw(renderer.getBatch(), currPage, (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 50, cam.position.y + 100);
 				
-				if(instructions.size == 4) {
-					renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
-				} else if (instructions.size == 2) {
-					renderer.getBatch().draw(trainers.get(0).getAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, DogTrainer.WIDTH, DogTrainer.HEIGHT, 2, 2, 0);
-				} else if (instructions.size == 1) {
-					renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
+				if(levelIndex < 3) {
+					if(instructions.size == 4) {
+						renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
+					} else if (instructions.size == 2) {
+						renderer.getBatch().draw(trainers.get(0).getAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, DogTrainer.WIDTH, DogTrainer.HEIGHT, 2, 2, 0);
+					} else if (instructions.size == 1) {
+						renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
+					}
+				} else {
+					if(!lost)
+						renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
 				}
+				
+//				add poop
+//				if(lost)
+					
 			}
 		renderer.getBatch().end();
 	}
@@ -229,9 +264,25 @@ public class World {
 
 	private void checkCollisions(float delta) {
 		if(hershey.getBounds().overlaps(krissy.getBounds())) {
+			levelSong.stop();
+			
 			if(levelIndex < 3) {
 				levelIndex++;
 				loadMap();
+			} else {
+				if(!endGame) {
+					levelSong = Gdx.audio.newMusic(Gdx.files.internal("Win.wav"));
+					levelSong.setLooping(true);
+					levelSong.play();
+				}
+				
+				//Win Text!
+				instructions.clear();
+				instructions.add("Conglaturation! You Win!");
+				instructions.add("End?");
+				currPage = instructions.get(0);
+				instTrigger = true;
+				endGame = true;
 			}
 		}
 		
@@ -258,15 +309,17 @@ public class World {
 				}
 			}
 		}
-		
-		
 	}
 	
 	private void loadMap(){
+		HersheyQuest.paused = true;
+		
 		hershey = null;
 		krissy = null;
 		enemies.clear();
 		trainers.clear();
+		
+		levelSong = null;
 		
 		map = new TmxMapLoader().load("level-" + levelIndex + ".tmx");
 		mapInfo = map.getProperties();
@@ -275,14 +328,22 @@ public class World {
 		
 		MapLayer entities = map.getLayers().get("entities");
 		
+		if(mapInfo.get("song") != null) {
+			levelSong = Gdx.audio.newMusic(Gdx.files.internal(mapInfo.get("song").toString() + ".wav"));
+			levelSong.setLooping(true);
+			levelSong.play();
+		}
+		
+		MapObject hersheyObj = entities.getObjects().get("Hershey");
+		MapProperties hersheyProps = hersheyObj.getProperties();
+		hershey = new Hershey((Float)hersheyProps.get("x"), (Float)hersheyProps.get("y"), cam, map.getLayers().get("collision"));
+		
 		Iterator<MapObject> mapObjectIterator = entities.getObjects().iterator();
 		while(mapObjectIterator.hasNext()) {
 			MapObject obj = mapObjectIterator.next();
 			MapProperties objProps = obj.getProperties();
 			
-			if(obj.getName().equalsIgnoreCase("hershey")) {
-				hershey = new Hershey((Float)objProps.get("x"), (Float)objProps.get("y"), cam, map.getLayers().get("collision"));
-			} else if(obj.getName().equalsIgnoreCase("enemy")) {
+			if(obj.getName().equalsIgnoreCase("enemy")) {
 				Enemy enemy = new Enemy((Float)objProps.get("x"), (Float)objProps.get("y"), hershey);
 				enemies.add(enemy);
 			} else if(obj.getName().equalsIgnoreCase("krissy")) {
@@ -292,6 +353,8 @@ public class World {
 				trainers.add(dogTrainer);
 			}
 		}
+		
+		HersheyQuest.paused = false;
 	}
 	
 	//Getters/Setters
