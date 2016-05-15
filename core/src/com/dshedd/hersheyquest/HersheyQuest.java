@@ -7,7 +7,7 @@ import com.dshedd.hersheyquest.screens.IntroScreen;
 public class HersheyQuest extends Game {
 	
 	public static boolean paused = false;
-	public int screenWidth = 960, screenHeight = 640;
+	public static int screenWidth = 960, screenHeight = 640;
 	
 	private Viewport viewport;
 	

@@ -21,7 +21,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dshedd.hersheyquest.HersheyQuest;
 import com.dshedd.hersheyquest.entities.DogTrainer;
 import com.dshedd.hersheyquest.entities.Enemy;
@@ -58,9 +58,9 @@ public class World {
 	
 	public World(HersheyQuest game) {
 		//Instructions + Pause mask
-		Pixmap maskRect = new Pixmap((int)Gdx.graphics.getWidth(), (int)Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
+		Pixmap maskRect = new Pixmap((int)HersheyQuest.screenWidth, (int)HersheyQuest.screenHeight, Pixmap.Format.RGBA8888);
 		maskRect.setColor(0f, 0f, 0f, 0.5f);
-		maskRect.drawRectangle(0, 0, (int)Gdx.graphics.getWidth(), (int)Gdx.graphics.getHeight());
+		maskRect.drawRectangle(0, 0, (int)HersheyQuest.screenWidth, (int)HersheyQuest.screenHeight);
 		maskRect.fill();
 		mask = new Texture(maskRect);
 		
@@ -73,11 +73,10 @@ public class World {
 		
 		nervousText = new BitmapFont(Gdx.files.internal("font/font.fnt"));
 		screenText = new BitmapFont(Gdx.files.internal("font/font.fnt"));
-		screenText.getRegion().setRegionWidth(Gdx.graphics.getWidth() / 2);
-		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		screenText.getRegion().setRegionWidth(HersheyQuest.screenWidth / 2);
+		cam = new OrthographicCamera(HersheyQuest.screenWidth, HersheyQuest.screenHeight);
 		this.game = game;
-		game.setViewport(new ScalingViewport(Scaling.fit, game.screenWidth, game.screenHeight, cam));
-		game.getViewport().update((int)cam.viewportWidth, (int)cam.viewportHeight);
+		game.setViewport(new FitViewport(HersheyQuest.screenWidth, HersheyQuest.screenHeight, cam));
 		
 		loadMap();
 		
@@ -144,39 +143,39 @@ public class World {
 		cam.position.set(hershey.getPos().x, hershey.getPos().y, 0);
 		
 		//Handle map edges
-		if(((hershey.getPos().x - (cam.viewportWidth / 2)) > 0) && (hershey.getPos().x + (cam.viewportWidth / 2) < ((Integer)mapInfo.get("width")*32) - 30)) { 
+		if(((hershey.getPos().x - (HersheyQuest.screenWidth / 2)) > 0) && (hershey.getPos().x + (HersheyQuest.screenWidth / 2) < ((Integer)mapInfo.get("width")*32) - 30)) { 
 			if(cam.position.x < (hershey.getPos().x + (hershey.WIDTH / 2))) {
 				cam.position.x += 2;
 			}
-		} else if((hershey.getPos().x - (cam.viewportWidth / 2)) <= 0) {
-			if(cam.position.x > cam.viewportWidth / 2) {
+		} else if((hershey.getPos().x - (HersheyQuest.screenWidth / 2)) <= 0) {
+			if(cam.position.x > HersheyQuest.screenWidth / 2) {
 				cam.position.x -= 2;
 			} else {
-				cam.position.x = cam.viewportWidth / 2;
+				cam.position.x = HersheyQuest.screenWidth / 2;
 			}
-		} else if((hershey.getPos().x + (cam.viewportWidth / 2) > ((Integer)mapInfo.get("width") * 32) - 30)) {
-			if(cam.position.x < (((Integer)mapInfo.get("width") * 32) - (cam.viewportWidth / 2))) {
+		} else if((hershey.getPos().x + (HersheyQuest.screenWidth / 2) > ((Integer)mapInfo.get("width") * 32) - 30)) {
+			if(cam.position.x < (((Integer)mapInfo.get("width") * 32) - (HersheyQuest.screenWidth / 2))) {
 				cam.position.x += 2;
 			} else {
-				cam.position.x = ((Integer)mapInfo.get("width") * 32) - (cam.viewportWidth / 2);
+				cam.position.x = ((Integer)mapInfo.get("width") * 32) - (HersheyQuest.screenWidth / 2);
 			}
 		}
 		
-		if((hershey.getPos().y - (cam.viewportHeight / 2) > 0) && (hershey.getPos().y + (cam.viewportHeight / 2)) < ((Integer)mapInfo.get("height")*32) - 30) { 
+		if((hershey.getPos().y - (HersheyQuest.screenHeight / 2) > 0) && (hershey.getPos().y + (HersheyQuest.screenHeight / 2)) < ((Integer)mapInfo.get("height")*32) - 30) { 
 			if(cam.position.y < (hershey.getPos().y + (hershey.HEIGHT / 2))) {
 				cam.position.y += 2;
 			}
-		} else if(hershey.getPos().y - (cam.viewportHeight / 2) <= 0) {
-			if(cam.position.y > cam.viewportHeight / 2) {
+		} else if(hershey.getPos().y - (HersheyQuest.screenHeight / 2) <= 0) {
+			if(cam.position.y > HersheyQuest.screenHeight / 2) {
 				cam.position.y -= 2;
 			} else {
-				cam.position.y = cam.viewportHeight / 2;
+				cam.position.y = HersheyQuest.screenHeight / 2;
 			}
-		} else if((hershey.getPos().y + (cam.viewportHeight)) > ((Integer)mapInfo.get("height")*32)) {
-			if(cam.position.y < ((Integer)mapInfo.get("height") * 32) - (cam.viewportHeight / 2)) {
+		} else if((hershey.getPos().y + (HersheyQuest.screenHeight)) > ((Integer)mapInfo.get("height")*32)) {
+			if(cam.position.y < ((Integer)mapInfo.get("height") * 32) - (HersheyQuest.screenHeight / 2)) {
 				cam.position.y += 2;
 			} else {
-				cam.position.y = ((Integer)mapInfo.get("height")*32) - (cam.viewportHeight / 2);
+				cam.position.y = ((Integer)mapInfo.get("height")*32) - (HersheyQuest.screenHeight / 2);
 			}
 		}
 		
@@ -228,31 +227,36 @@ public class World {
 			}
 			
 			nervousText.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			nervousText.draw(renderer.getBatch(), nervousMeter, nervousX - 128, nervousY + cam.viewportHeight - 350);
+			nervousText.draw(renderer.getBatch(), nervousMeter, nervousX - 128, nervousY + HersheyQuest.screenHeight - 350);
 			
 			//Draw the Instructions
 			if(instTrigger || HersheyQuest.paused)
-				renderer.getBatch().draw(mask, cam.position.x - cam.viewportWidth / 2 , cam.position.y - cam.viewportHeight / 2, 0, 0, (int)Gdx.graphics.getWidth(), (int)Gdx.graphics.getHeight());
+				renderer.getBatch().draw(mask, cam.position.x - HersheyQuest.screenWidth / 2 , cam.position.y - HersheyQuest.screenHeight / 2, 0, 0, (int)HersheyQuest.screenWidth, (int)HersheyQuest.screenHeight);
 			
 			if(instTrigger) {
 				screenText.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 				screenText.draw(renderer.getBatch(), currPage, (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 50, cam.position.y + 100);
 				
 				if(levelIndex < 3) {
-					if(instructions.size == 4) {
-						renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
-					} else if (instructions.size == 2) {
-						renderer.getBatch().draw(trainers.get(0).getAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, DogTrainer.WIDTH, DogTrainer.HEIGHT, 2, 2, 0);
-					} else if (instructions.size == 1) {
-						renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
+					if(!lost){
+						if(instructions.size == 4) {
+							renderer.getBatch().draw(hershey.getCurrAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Hershey.WIDTH, Hershey.HEIGHT, 2, 2, 0);
+						} else if (instructions.size == 2) {
+							renderer.getBatch().draw(trainers.get(0).getAnimation().getKeyFrame(hershey.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, DogTrainer.WIDTH, DogTrainer.HEIGHT, 2, 2, 0);
+						} else if (instructions.size == 1) {
+							renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
+						}
 					}
 				} else {
-					if(!lost)
+					if(!lost){
 						renderer.getBatch().draw(krissy.getAnimation().getKeyFrame(krissy.getStateTime(), true), (cam.position.x - screenText.getRegion().getRegionWidth() / 2) - 175, cam.position.y, 0, 0, Krissy.WIDTH, Krissy.HEIGHT, 2, 2, 0);
+					}
 				}
 				
-//				add poop
-//				if(lost)
+				if(lost){
+					renderer.getBatch().draw(new Texture(Gdx.files.internal("poo.png")), (cam.position.x - 48) - 375, cam.position.y, 96f, 96f, 0, 0, 32, 32, false, false);
+				}
+					
 					
 			}
 		renderer.getBatch().end();

@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.dshedd.hersheyquest.HersheyQuest;
 
 public class Hershey {
 	SpriteBatch batch = new SpriteBatch();
@@ -248,7 +249,7 @@ public class Hershey {
 		
 		if(!controllable) {
 			if(moveUp) {
-				if(bounds.y + bounds.height >= cam.viewportHeight) {
+				if(bounds.y + bounds.height >= HersheyQuest.screenHeight) {
 					collide = true;
 					dir = -1;
 				}
@@ -258,7 +259,7 @@ public class Hershey {
 					dir = -1;
 				}
 			} else if (moveRight) {
-				if(bounds.x + bounds.width >= cam.viewportWidth) {
+				if(bounds.x + bounds.width >= HersheyQuest.screenWidth) {
 					collide = true;
 					dir = -1;
 				}

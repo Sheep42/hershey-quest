@@ -19,8 +19,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dshedd.hersheyquest.HersheyQuest;
 import com.dshedd.hersheyquest.entities.Hershey;
 
@@ -46,11 +45,11 @@ public class IntroScreen extends AbstractScreen {
 		super(game);
 		this.game = game;
 		
-		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.x = cam.viewportWidth / 2;
-		cam.position.y = cam.viewportHeight / 2;
+		cam = new OrthographicCamera(HersheyQuest.screenWidth, HersheyQuest.screenHeight);
+		cam.position.x = HersheyQuest.screenWidth / 2;
+		cam.position.y = HersheyQuest.screenHeight / 2;
 		
-		game.setViewport(new ScalingViewport(Scaling.fit, game.screenWidth, game.screenHeight, cam));
+		game.setViewport(new FitViewport(HersheyQuest.screenWidth, HersheyQuest.screenHeight, cam));
 		
 		map = new TmxMapLoader().load("intro.tmx");
 		
@@ -90,9 +89,9 @@ public class IntroScreen extends AbstractScreen {
 		
 		batch.getProjectionMatrix().setToOrtho2D(0, 0, 960, 680);
 		
-		logoPos = new Vector2((Gdx.graphics.getWidth() / 2) - (introScreen.getRegionWidth() / 2), 0);
+		logoPos = new Vector2((HersheyQuest.screenWidth / 2) - (introScreen.getRegionWidth() / 2), 0);
 		
-		continuePos = new Vector2((Gdx.graphics.getWidth() / 2) - continueText.getRegionWidth() / 2, logoPos.y - 50);
+		continuePos = new Vector2((HersheyQuest.screenWidth / 2) - continueText.getRegionWidth() / 2, logoPos.y - 50);
 	}
 	
 	@Override
@@ -100,7 +99,7 @@ public class IntroScreen extends AbstractScreen {
 		//Wipe the screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		if(logoPos.y < (Gdx.graphics.getHeight() / 2) + 40) {
+		if(logoPos.y < (HersheyQuest.screenHeight / 2) + 40) {
 			logoPos.y += 2;
 			continuePos.y = logoPos.y - 50;
 		}
