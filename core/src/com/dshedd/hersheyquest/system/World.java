@@ -37,7 +37,7 @@ public class World {
 	private Vector3 touchPos = new Vector3(0, 0, 0);
 	private SpriteBatch batch;
 	private BitmapFont nervousText, screenText;
-	private int levelIndex = 3;
+	private int levelIndex = 1;
 	private boolean instTrigger = true, endGame = false, lost = false;
 	
 	protected TiledMap map;
