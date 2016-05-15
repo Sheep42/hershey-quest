@@ -123,7 +123,7 @@ public class World {
 				
 				levelSong.stop();
 				levelSong = null;
-				levelSong = Gdx.audio.newMusic(Gdx.files.internal("game-over.wav"));
+				levelSong = Gdx.audio.newMusic(Gdx.files.internal("game-over.mp3"));
 				levelSong.setLooping(true);
 				levelSong.play();
 			}
@@ -271,7 +271,7 @@ public class World {
 				loadMap();
 			} else {
 				if(!endGame) {
-					levelSong = Gdx.audio.newMusic(Gdx.files.internal("Win.wav"));
+					levelSong = Gdx.audio.newMusic(Gdx.files.internal("Win.mp3"));
 					levelSong.setLooping(true);
 					levelSong.play();
 				}
@@ -329,7 +329,7 @@ public class World {
 		MapLayer entities = map.getLayers().get("entities");
 		
 		if(mapInfo.get("song") != null) {
-			levelSong = Gdx.audio.newMusic(Gdx.files.internal(mapInfo.get("song").toString() + ".wav"));
+			levelSong = Gdx.audio.newMusic(Gdx.files.internal(mapInfo.get("song").toString() + ".mp3"));
 			levelSong.setLooping(true);
 			levelSong.play();
 		}

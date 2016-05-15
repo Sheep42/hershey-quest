@@ -78,7 +78,7 @@ public class IntroScreen extends AbstractScreen {
 		continueText = new TextureRegion();
 		batch = new SpriteBatch();
 		
-		titleSong = Gdx.audio.newMusic(Gdx.files.internal("title.wav"));
+		titleSong = Gdx.audio.newMusic(Gdx.files.internal("title.mp3"));
 		titleSong.setLooping(true);
 		titleSong.play();
 		
