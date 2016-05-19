@@ -48,6 +48,7 @@ public class World {
 	protected Array<DogTrainer> trainers = new Array<DogTrainer>();
 	protected Array<String> instructions = new Array<String>();
 	protected Random randNumGen = new Random();
+	protected float timer;
 	
 	Texture mask;
 	String currPage;
@@ -84,6 +85,7 @@ public class World {
 	}
 	
 	public void update(float delta){
+		timer += delta;
 		if(!instTrigger && !HersheyQuest.paused) {
 			
 			if(endGame) {
@@ -117,6 +119,7 @@ public class World {
 				instructions.add("You Lost! \n\nHershey was so nervous that he \ncouldn't control his bowels...");
 				currPage = instructions.get(0);
 				instTrigger = true;
+				timer = 0;
 				endGame = true;
 				lost = true;
 				
@@ -127,7 +130,8 @@ public class World {
 				levelSong.play();
 			}
 		} else {
-			if(Gdx.input.isKeyJustPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
+			if((Gdx.input.isKeyJustPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) && timer > 1) {
+				timer = 0;
 				instructions.removeIndex(0);
 				
 				if(instructions.size > 0) {
@@ -286,6 +290,7 @@ public class World {
 				instructions.add("End?");
 				currPage = instructions.get(0);
 				instTrigger = true;
+				timer = 0;
 				endGame = true;
 			}
 		}
